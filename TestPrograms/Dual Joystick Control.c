@@ -1,5 +1,5 @@
 #pragma config(ProgramType, NonCompetition)
-#pragma config(Motor,  port1,           vexMTR,        tmotorServoContinuousRotation, openLoop)
+#pragma config(Motor,  port1,           vexMTR,        tmotorServoContinuousRotation, openLoop) //All motor types work!!!
 #pragma config(Motor,  port2,           vexSVO,        tmotorServoStandard, openLoop)
 #pragma config(Motor,  port3,           vex269,        tmotorVex269, openLoop)
 #pragma config(Motor,  port4,           vex393,        tmotorVex393, openLoop)
@@ -57,25 +57,19 @@ Both Pressed		= 0
 
 task main()
 {
-	int test1 = 0;
-	int test2 = 0;
-	int test3 = 0;
+	int maxSpd = 127;
+	//int maxBck = maxSpeed*-1;
+	bVexAutonomousMode = false;			//Activates Remote Control Mode
 	while (1 == 1)									  //Creates and infinite loop
 	{
-		//motor[port1] = 127;
-		//motor[port2] = vexRT(Ch2);		  //The right motor is set to equal the value transmitted by Ch2 (y-axis of the right joystick)
-		//motor[port3] = vexRT(Ch3);		  //The left motor is set to equal the value transmitted by Ch3 (y-axis of the left joystick)
-		test1 = vexRT(Ch1);
-		test2 = vexRT(Ch1Xmtr2);
-		test3 = vexRT(vexJSRightH);
-	}
-	if (false)
-	{ //When this is set to true (and above the while loop), All motor ports go full speed.
-		motor[port1] = 127;
-		motor[port2] = 127;
-		motor[port3] = 127;
-		motor[port4] = 127;
-		motor[port5] = 127;
-		motor[port6] = 127;
+		//placeHolder = vexRT(Ch1); //This is how you call the RT
+		motor[port1] = maxSpd;
+		motor[port2] = maxSpd;
+		motor[port3] = maxSpd;
+		motor[port4] = maxSpd;
+		motor[port5] = maxSpd;
+		motor[port6] = maxSpd;
+		motor[port7] = maxSpd;
+		motor[port8] = maxSpd;
 	}
 }
