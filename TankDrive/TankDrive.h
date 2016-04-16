@@ -1,3 +1,12 @@
+/*
+* Instructions for use:
+*
+* This file was designed to be used in addition with a normal RobotC file by adding the line:
+* #include "TankDrive.h"
+* To your program. Once that is done, you can call any of the functions listed bellow. Please
+* see the following instructions on how to use each function properly.
+*/
+
 void TankDrive()
 {
 	motor[port1] = vexRT(Ch1);
