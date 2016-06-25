@@ -26,14 +26,14 @@ Additional Notes:
 task main()
 {
 	//Run Once on Init Code Block
-	int speed = 127/4;
+	int speed = 127/3;
 	bVexAutonomousMode = true;//false;			//Activates Remote Control Mode
 	while (true)									  //Creates and infinite loop
 	{
 		//Main Continuous Code Block
 		motor[port1] = speed;
 		speed = speed*-1;//vexRT[Ch1];
-		waitInMilliseconds(500);
+		waitInMilliseconds(300);
 		motor[port1] = 0;
 		waitInMilliseconds(50);
 	}
