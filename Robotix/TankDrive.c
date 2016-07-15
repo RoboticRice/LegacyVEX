@@ -7,7 +7,10 @@
 
 /*************************************************************************
 Robotix w/ VEX PIC - Tank Drive
-Sam Rice - 20160714
+Author: Sam Rice
+Date Created: 20160714
+Date Modified: 20160715
+Version: 0.2
 https://github.com/RoboticRice/LegacyVEX/
 
 Description: This is a simple tank drive program to test out using the 2-wire
@@ -37,14 +40,14 @@ Port8 = iMotor2 //Used for debugging puropses
 	(Joystick)
 Ch1 (Right Analog Stick, Left-Right)
 Ch2 (Right Analog Stick, Up-Down)
-Ch3 (Left Analog Stick, Left-Right)
-Ch4 (Left Analog Stick, Up-Down)
+Ch3 (Left Analog Stick, Up-Down)
+Ch4 (Left Analog Stick, Left-Right)
 Ch5 (Back Buttons, Left Hand)
 Ch6 (Back Buttons, Right Hand)
 
 	(Controls)
 Ch2 = rMotor Forward/Backward
-Ch4 = lMotor Forward/Backward
+Ch3 = lMotor Forward/Backward
 Ch5 = Incrament iMotor speed by 32
 Ch6 = Incrament iMotor speed by 8
 
@@ -70,7 +73,7 @@ task main()
 	{
 		//Main Continuous Code Block
 		rSpeed = vexRT[Ch2];
-		lSpeed = vexRT[Ch4];
+		lSpeed = vexRT[Ch3];
 		motor[rMotor] = rSpeed;
 		motor[lMotor] = lSpeed;
 		//Incramental Section:
