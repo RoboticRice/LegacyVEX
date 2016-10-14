@@ -7,31 +7,32 @@ Sam Rice - 20161002
 https://github.com/RoboticRice/LegacyVEX/
 
 Description: This is the universal code to control everything in the Alice
-	in Wonderland (AIW) vex robots. Current;y used essentially to test stuff...
+in Wonderland (AIW) vex robots. Current;y used essentially to test stuff...
 
 Configuration: The physical configuration of compenents in relation to the
 vex PIC.
 
 Additional Notes:
 * The "bVexAutonomousMode = false;" is needed to open up communication so
-  that the VEX can talk to the radio transmitter.
+that the VEX can talk to the radio transmitter.
 * Other notes.
 *************************************************************************/
 
 task main()
 {
 	//Run Once on Init Code Block
-	int highSpeed =  50;
 	int lowSpeed  =  25;
 	bVexAutonomousMode = true;//false;			//Activates Remote Control Mode when false
 	while (true)													  //Creates and infinite loop
 	{
 		//Main Continuous Code Block
 		motor[port1] = lowSpeed;
-		motor[port2] = lowSpeed+5;
-		motor[port3] = lowSpeed+10;
-		motor[port4] = lowSpeed+15;
-		motor[port5] = lowSpeed+20;
-		motor[port8] = highSpeed;
+		motor[port2] = lowSpeed+5; //30
+		motor[port3] = lowSpeed+10; //35
+		motor[port4] = lowSpeed+15; //40
+		motor[port5] = lowSpeed+20; //45
+		motor[port6] = lowSpeed+25; //50
+		motor[port7] = lowSpeed+30; //55
+		motor[port8] = lowSpeed+35; //60
 	}
 }
