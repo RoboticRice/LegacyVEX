@@ -18,8 +18,8 @@ Additional Notes:
 *************************************************************************/
 
 #define CENTER 0
-#define RMAX -127
-#define LMAX 127
+#define RMAX -115
+#define LMAX 115
 
 task main()
 {
@@ -28,14 +28,23 @@ task main()
 
 	int position = 0;
 	int increase = 1; //1 or -1 to control direction
+	int pauseTime = 100; //I want to make this NOT a wait function moving forward.
 
 	while (true)//Creates and infinite loop
 	{
 		//Main Continuous Code Block
 		if (position > 127)
+		{
 			increase = -1; //decrease
+			wait10Msec(pauseTime);
+		}
 		else if (position < -127)
+		{
 			increase = 1; //increase
+			wait10Msec(pauseTime);
+		}
+		else if (position == 0)
+			wait10Msec(pauseTime);
 
 		position = position + increase;
 
