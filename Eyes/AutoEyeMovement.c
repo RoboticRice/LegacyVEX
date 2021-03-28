@@ -18,8 +18,8 @@ Additional Notes:
 *************************************************************************/
 
 #define CENTER 0
-#define RMAX -115
-#define LMAX 115
+#define RMAX -100
+#define LMAX 100
 
 task main()
 {
@@ -28,28 +28,28 @@ task main()
 
 	int position = 0;
 	int increase = 1; //1 or -1 to control direction
-	int pauseTime = 100; //I want to make this NOT a wait function moving forward.
+	int pauseTime = 200; //I want to make this NOT a wait function moving forward.
 
 	while (true)//Creates and infinite loop
 	{
 		//Main Continuous Code Block
-		if (position > 127)
+		if (position > LMAX)
 		{
 			increase = -1; //decrease
 			wait10Msec(pauseTime);
 		}
-		else if (position < -127)
+		else if (position < RMAX)
 		{
 			increase = 1; //increase
 			wait10Msec(pauseTime);
 		}
-		else if (position == 0)
+		else if (position == CENTER)
 			wait10Msec(pauseTime);
 
 		position = position + increase;
 
 		motor[eyeBalls] = position;
 
-		wait10Msec(1);
+		wait1Msec(2);
 	}
 }
