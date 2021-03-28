@@ -58,7 +58,7 @@ Additional Notes:
 #define INTERVAL_IN_SECONDS 2
 //Define State Values
 #define BALL_STAY 0 //Eye Balls remain still at current position (to be used as default or error)
-#define BALL_MOVE 1 //Eye Balls move L/R and Center at defined intervals
+//#define BALL_MOVE 1 //Eye Balls move L/R and Center at defined intervals
 #define BALL_CENT 2 //Eye Balls move to center (if not already there) and remain still
 #define BALL_RGHT 3 //Eye Balls move to look right (if not already there) and remain still
 #define BALL_LEFT 4 //Eye Balls move to look left (if not already there) and remain still
@@ -66,7 +66,7 @@ Additional Notes:
 #define LIDS_STAY 0 //Eye Lids remain still at current position (to be used as default or error)
 #define LIDS_OPEN 1 //Eye Lids remain still in the open position
 #define LIDS_SHUT 2 //Eye Lids remain still in the closed position
-#define LIDS_MOVE 3 //Eye Lids blink at defined intervals
+//#define LIDS_MOVE 3 //Eye Lids blink at defined intervals
 
 char getStateBall();
 char getStateLids();
@@ -79,9 +79,6 @@ task main()
 	/*PROGRAMMING NOTE: "signed char" is a variable that contains an interger value between -127 and +127*/
 	signed char	posBall = 0;
 	signed char	posLids = 0;
-	bool increaseBall = true;
-	bool increaseLids = true;
-	short pauseTime = 200; //I want to make this NOT a wait function moving forward.
 
 	char stateBall = getStateBall();
 	char stateLids = getStateLids();
@@ -90,26 +87,6 @@ task main()
 	{
 		//Main Continuous Code Block
 		switch (stateBall) {
-			case BALL_MOVE :
-				//DEPRECIATED - will remove later if I can't find a use for this
-				if (posBall >= LMAX)
-				{
-					increaseBall = false; //decrease
-					wait10Msec(pauseTime);
-				}
-				else if (posBall <= RMAX)
-				{
-					increaseBall = true; //increase
-					wait10Msec(pauseTime);
-				}
-				else if (posBall == CENTER)
-					wait10Msec(pauseTime);
-
-				posBall = posBall - (1-(2*increaseBall));
-				//2*increase=0 if false, 2 if true
-				//1-0 = 1 ;; 1-2 = -1
-				//pos - 1 = decrease ;; pos - (-1) = increase
-				break;
 			case BALL_CENT :
 				if (posBall > CENTER)
 					posBall = posBall - 1;
@@ -131,24 +108,6 @@ task main()
 		}
 
 		switch (stateLids) {
-			case LIDS_MOVE :
-				//Note to self: need to remove wait statements
-				if (posLids >= SHUT)
-				{
-					increaseLids = false; //decrease
-					//wait10Msec(pauseTime);
-				}
-				else if (posLids <= OPEN)
-				{
-					increaseLids = true; //increase
-					//wait10Msec(pauseTime);
-				}
-
-				posLids = posLids - (1-(2*increaseLids));
-				//2*increase=0 if false, 2 if true
-				//1-0 = 1 ;; 1-2 = -1
-				//pos - 1 = decrease ;; pos - (-1) = increase
-				break;
 			case LIDS_OPEN :
 				if (posLids > OPEN)
 					posLids = posLids - 1;
@@ -156,9 +115,6 @@ task main()
 			case LIDS_SHUT :
 				if (posLids < SHUT)
 					posLids = posLids + 1;
-				break;
-			default : //LIDS_STAY
-			//No code required, as the value of posLids will remain unchanged, and thus the eyeLids will stay still
 		}
 
 		motor[eyeBall] = posBall;
@@ -185,14 +141,13 @@ char getStateBall() {
 		//else if (0=1) //I do not have a method of starting this yet...
 			//return BALL_TRCK;
 		else {
-			//return BALL_MOVE;
 			if (time100[T1] < (INTERVAL_IN_SECONDS * 10)) //theory, add a rand# between -10 and +10 (100ms) each time
 				return BALL_CENT;
 			else if (time100[T1] < (INTERVAL_IN_SECONDS * 20))
 				return BALL_LEFT;
 			else if (time100[T1] < (INTERVAL_IN_SECONDS * 30))
 				return BALL_RGHT;
-			else if (time100[T1] < (INTERVAL_IN_SECONDS * 40))
+			else if (time100[T1] < (INTERVAL_IN_SECONDS * 40 + 10)) //+10 since it's moving twice as far in the same time window
 				return BALL_CENT;
 			else if (time100[T1] < (INTERVAL_IN_SECONDS * 50))
 				return BALL_RGHT;
@@ -219,8 +174,15 @@ char getStateLids() {
 			return LIDS_SHUT;
 		else if (SensorValue[lOpen])
 			return LIDS_OPEN;
-		else
-			return LIDS_MOVE;
+		else {
+			if (time100[T2] < (INTERVAL_IN_SECONDS * 18))
+				return LIDS_OPEN;
+			else if (time100[T2] < (INTERVAL_IN_SECONDS * 21))
+				return LIDS_SHUT;
+			else
+				ClearTimer(T2);
+			return LIDS_OPEN;
+		}
 	} else {
 		//Controller input, which is currently unplanned - but this is where I'd add it if I want to scare guests lol
 		return LIDS_STAY;
