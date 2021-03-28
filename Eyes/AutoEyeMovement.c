@@ -55,6 +55,7 @@ Additional Notes:
 #define LMAX 100
 #define OPEN 0 //guesses
 #define SHUT 100 //guesses
+#define INTERVAL_IN_SECONDS 2
 //Define State Values
 #define BALL_STAY 0 //Eye Balls remain still at current position (to be used as default or error)
 #define BALL_MOVE 1 //Eye Balls move L/R and Center at defined intervals
@@ -90,7 +91,7 @@ task main()
 		//Main Continuous Code Block
 		switch (stateBall) {
 			case BALL_MOVE :
-				//Note to self: need to remove wait statements
+				//DEPRECIATED - will remove later if I can't find a use for this
 				if (posBall >= LMAX)
 				{
 					increaseBall = false; //decrease
@@ -183,8 +184,26 @@ char getStateBall() {
 			return BALL_LEFT;
 		//else if (0=1) //I do not have a method of starting this yet...
 			//return BALL_TRCK;
-		else
-			return BALL_MOVE;
+		else {
+			//return BALL_MOVE;
+			if (time100[T1] < (INTERVAL_IN_SECONDS * 10)) //theory, add a rand# between -10 and +10 (100ms) each time
+				return BALL_CENT;
+			else if (time100[T1] < (INTERVAL_IN_SECONDS * 20))
+				return BALL_LEFT;
+			else if (time100[T1] < (INTERVAL_IN_SECONDS * 30))
+				return BALL_RGHT;
+			else if (time100[T1] < (INTERVAL_IN_SECONDS * 40))
+				return BALL_CENT;
+			else if (time100[T1] < (INTERVAL_IN_SECONDS * 50))
+				return BALL_RGHT;
+			else if (time100[T1] < (INTERVAL_IN_SECONDS * 60))
+				return BALL_CENT;
+			else if (time100[T1] < (INTERVAL_IN_SECONDS * 70))
+				return BALL_LEFT;
+			else
+				ClearTimer(T1);
+      return BALL_CENT;
+		}
 	} else {
 		//Controller input, which is currently unplanned - but this is where I'd add it if I want to scare guests lol
 		return BALL_STAY;
